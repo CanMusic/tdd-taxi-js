@@ -15,10 +15,9 @@ class Taximeter {
   parseRecord(record) {
     this.expression = /^(\d+)公里,等待(\d+)分钟$/;
     const data = record.match(this.expression);
-    if (!data) throw new Error('record format error');
+    if (!data || data.length < 3) throw new Error('record format error');
     const distance = data[1];
     const time = data[2];
-    if (!distance || !time) throw new Error('record format error');
     return { distance, time };
   }
 
