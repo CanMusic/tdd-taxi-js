@@ -1,3 +1,5 @@
+import main from '../index';
+
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -8,6 +10,10 @@ const readLines = file => {
   const fileData = fs.readFileSync(filePath, 'utf8');
   return fileData.split(os.EOL);
 };
+
+test('default test', () => {
+  expect(main()).toBe('收费6元\n收费7元\n收费13元\n收费7元\n');
+});
 
 test('example', () => {
   const taxi = new Taximeter();
