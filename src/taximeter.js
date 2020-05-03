@@ -29,7 +29,7 @@ class Taximeter {
   }
 
   getReceipt(file) {
-    const filePath = path.join(__dirname, `./fixtures/${file}`);
+    const filePath = path.join('./src/fixtures', file);
     const fileData = fs.readFileSync(filePath, 'utf8');
     const lines = fileData.split(os.EOL);
     let receipt = '';

@@ -4,7 +4,7 @@ const os = require('os');
 const Taximeter = require('../taximeter');
 
 const readLines = file => {
-  const filePath = path.join(__dirname, `../fixtures/${file}`);
+  const filePath = path.join('./src/fixtures', file);
   const fileData = fs.readFileSync(filePath, 'utf8');
   return fileData.split(os.EOL);
 };
