@@ -24,8 +24,7 @@ class Taximeter {
   getPrice(record) {
     const data = this.parseRecord(record);
     const reducer = (result, rule) => result + rule(data.distance, data.time);
-    const price = Math.round(this.rules.reduce(reducer, 0));
-    return `收费${price}元\n`;
+    return Math.round(this.rules.reduce(reducer, 0));
   }
 
   getReceipt(file) {
@@ -34,7 +33,7 @@ class Taximeter {
     const lines = fileData.split(os.EOL);
     let receipt = '';
     lines.forEach(line => {
-      receipt += this.getPrice(line);
+      receipt += `收费${this.getPrice(line)}元\n`;
     });
     return receipt;
   }

@@ -1,28 +1,15 @@
-import main from '../index';
-
 const fs = require('fs');
-const path = require('path');
 const os = require('os');
 const Taximeter = require('../taximeter');
-
-const readLines = file => {
-  const filePath = path.join('./src/fixtures', file);
-  const fileData = fs.readFileSync(filePath, 'utf8');
-  return fileData.split(os.EOL);
-};
-
-test('default test', () => {
-  expect(main()).toBe('收费6元\n收费7元\n收费13元\n收费7元\n');
-});
 
 test('example', () => {
   const taxi = new Taximeter();
   const receipt = '收费6元\n收费7元\n收费13元\n收费7元\n';
   expect(taxi.getReceipt('testData.txt')).toBe(receipt);
-  expect(taxi.getPrice('1公里,等待0分钟')).toBe('收费6元\n');
-  expect(taxi.getPrice('3公里,等待0分钟')).toBe('收费7元\n');
-  expect(taxi.getPrice('10公里,等待0分钟')).toBe('收费13元\n');
-  expect(taxi.getPrice('2公里,等待3分钟')).toBe('收费7元\n');
+  expect(taxi.getPrice('1公里,等待0分钟')).toBe(6);
+  expect(taxi.getPrice('3公里,等待0分钟')).toBe(7);
+  expect(taxi.getPrice('10公里,等待0分钟')).toBe(13);
+  expect(taxi.getPrice('2公里,等待3分钟')).toBe(7);
 });
 
 test('test data file`s format', () => {
@@ -31,14 +18,25 @@ test('test data file`s format', () => {
 });
 
 test('test data`s format', () => {
-  const records = readLines('testFormat.txt');
+  const fileData = fs.readFileSync('./src/fixtures/testFormat.txt', 'utf8');
+  const records = fileData.split(os.EOL);
   const taxi = new Taximeter();
   records.forEach(record => {
     expect(() => taxi.getPrice(record)).toThrow();
   });
 });
 
-test('test error argument', () => {
+test('test error argument for getReceipt', () => {
+  const taxi = new Taximeter();
+  expect(() => taxi.getReceipt()).toThrow();
+  expect(() => taxi.getReceipt({})).toThrow();
+  expect(() => taxi.getReceipt(true)).toThrow();
+  expect(() => taxi.getReceipt(false)).toThrow();
+  expect(() => taxi.getReceipt(0)).toThrow();
+  expect(() => taxi.getReceipt(-1)).toThrow();
+});
+
+test('test error argument for getPrice', () => {
   const taxi = new Taximeter();
   expect(() => taxi.getPrice()).toThrow();
   expect(() => taxi.getPrice({})).toThrow();
